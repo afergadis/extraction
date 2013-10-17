@@ -1,6 +1,7 @@
 __author__ = 'Aris Fergadis'
 __version__ = 0.1
 
+import codecs
 import logging
 import sys
 from operator import itemgetter
@@ -11,12 +12,14 @@ from gensim import corpora, models
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 if len(sys.argv) != 3:
-    print "Usage: extract document_name extraction_percent"
-    print "\tExample: extract sleep.txt 10"
-    exit(1)
+    file_to_open = raw_input("File to open: ")
+    summary_len = raw_input("Extraction length in percent (without %): ")
+else:
+    file_to_open = sys.argv[1]
+    summary_len = sys.argv[2]
 
 # Read article
-f = open(sys.argv[1])
+f = codecs.open(file_to_open, encoding='utf-8')
 article = f.read()
 f.close()
 
@@ -59,7 +62,7 @@ for sent_id, doc in enumerate(corpus_tfidf):
     sentences_score.append((sent_id, sent_score))
 
 # "Summary" length
-extract_len = int(round(len(sentences) * (int(sys.argv[2])) / 100.0))
+extract_len = int(round(len(sentences) * (int(summary_len)) / 100.0))
 
 # Sort sentences by score in descending order
 sorted_sents_by_score = sorted(sentences_score, key=itemgetter(1), reverse=True)
@@ -68,8 +71,7 @@ hi_score_sents = sorted(sorted_sents_by_score[:extract_len], key=itemgetter(0))
 
 # Some statistics
 print "Document sentences: {0}".format(len(sentences))
-print "Extraction sentences: {0}\n".format(extract_len)
-
+print "Extraction sentences: {0}\n".format(int(round(len(sentences) * (int(summary_len)) / 100.0)))
 #print document_orig[0]  # print title
 for sent in hi_score_sents:
     sent_id, _ = sent
