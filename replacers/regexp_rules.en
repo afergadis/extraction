@@ -1,0 +1,11 @@
+\bwon't\b     will not
+\bcan't\b     cannot
+\bi'm\b       I am
+\bI'm\b       I am
+\bain't\b     is not
+\b(\w+)'ll\b  \1 will
+\b(\w+)n't\b  \1 not
+\b(\w+)'ve\b  \1 have
+\b(\w+)'s\b   \1 is
+\b(\w+)'r\b   \1 are
+\b(\w+)'d\b   \1 would
